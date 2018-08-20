@@ -15,12 +15,12 @@ from sklearn import datasets, neighbors
 from sklearn.preprocessing import StandardScaler
 
 
+NUMDIM = 4 # number of dimensions/variables
 NUMCLASS = 5 # number of classes
 # How many nearest neighbours?
 n_neighbors = 15
 # 'uniform' or 'distance' # distance assigns weights proportional to the inverse of the distance from query point
 WEIGHT = 'distance'
-
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -34,7 +34,7 @@ with open(file, 'r') as f:
 	reader = csv.reader(f)
 	raw = list(reader)[1:]
 
-data = np.asarray([row[1:5] for row in raw])
+data = np.asarray([row[1:NUMDIM+2] for row in raw])
 y = data[:, 0].astype(np.int)
 X = data[:, 1:].astype(np.float)
 

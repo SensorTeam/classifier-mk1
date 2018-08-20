@@ -10,7 +10,10 @@ import pickle
 import csv
 import numpy as np
 
-data = np.array(['d73.jpg', 3, 0.358153146, 0.379450496, 0.262396358])	# Filename, class, R, G, B, rIPD
+data = np.array(['d73.jpg', 3, 0.358153146, 0.379450496, 0.262396358, 8.009993758])	# Filename, class, R, G, B, rIPD
+data = np.array(['d78.jpg',	3, 0.369236403, 0.383311043, 0.247452554, 5.111111111])
+data = np.array(['l172.jpg', 4, 0.38009686, 0.35891267, 0.26099047, 7.60504666])
+data = np.array(['f110.jpg', 0, 0.407695133, 0.344030434, 0.248274433, 5.241833011])
 
 def main(data):
 	# append to database
