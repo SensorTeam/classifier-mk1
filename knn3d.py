@@ -1,5 +1,6 @@
 import numpy as np
 import csv
+import pickle
 from sklearn import datasets, neighbors
 from sklearn.preprocessing import StandardScaler
 
@@ -50,8 +51,9 @@ learnset_data = X
 learnset_labels = y
 
 # create knn model
-clf = neighbors.KNeighborsClassifier(n_neighbors, weights=WEIGHT)
-clf.fit(X, y)
+model = neighbors.KNeighborsClassifier(n_neighbors, weights=WEIGHT)
+model.fit(X, y)
+pickle.dump(model, open('knn_model.sav', 'wb'))
 
 # plot in 3D
 import matplotlib.pyplot as plt
@@ -74,4 +76,4 @@ plt.show()
 
 # print predictions of test data
 print("=======================\nk=%s, weights=%s" %(n_neighbors, WEIGHT))
-print("Test Data Accuracy: " + str(predict("colourtest.csv", clf, scaler)))
+print("Test Data Accuracy: " + str(predict("colourtest.csv", model, scaler)))
