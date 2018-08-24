@@ -42,7 +42,7 @@ X = data[:, 1:].astype(np.float)
 scaler = StandardScaler()
 scaler.fit(X)
 # pickle the transform
-pickle.dump(scaler, open('scaler_transform.sav', 'wb'))
+pickle.dump(scaler, open('t/scaler_transform.sav', 'wb'))
 X = scaler.transform(X)
 learnset_data = X
 learnset_labels = y
@@ -51,7 +51,7 @@ learnset_labels = y
 model = neighbors.KNeighborsClassifier(n_neighbors, weights=WEIGHT)
 model.fit(X, y)
 # pickle it
-pickle.dump(model, open('knn_model.sav', 'wb'))
+pickle.dump(model, open('t/knn_model.sav', 'wb'))
 
 # plot in 3D
 X = []
