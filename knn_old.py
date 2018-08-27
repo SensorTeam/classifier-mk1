@@ -21,7 +21,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.lines import Line2D
-from mpl_toolkits.mplot3d import Axes3D
 from sklearn import neighbors, datasets
 from sklearn.preprocessing import StandardScaler
 
@@ -29,9 +28,9 @@ from sklearn.preprocessing import StandardScaler
 ############## SET MACRO VARIABLES #####################
 
 # How many nearest neighbours?
-n_neighbors = 3
+n_neighbors = 15
 # 'uniform' or 'distance' # distance assigns weights proportional to the inverse of the distance from query point
-WEIGHT = 'uniform'
+WEIGHT = 'distance'
 
 ########################################################
 
@@ -58,7 +57,7 @@ def predict(filename, model):
 
 
 # open database
-with open('colourtrain.csv', 'r') as f:
+with open('distcolourtrain.csv', 'r') as f:
 	reader = csv.reader(f)
 	raw = list(reader)[1:]
 
@@ -75,8 +74,7 @@ h = .01  # step size in the mesh
 cmap_light = ListedColormap(['#FFAAAA', '#AAAAFF', '#AAFFAA', '#FFF3AA', '#F3AAFF'])
 cmap_bold = ListedColormap(['#FF0000', '#0000FF', '#00FF00', '#FFDB00', '#DC00FF'])
 
-"""
-# Create an instance of Neighbours Classifier and fit the data.
+# we create an instance of Neighbours Classifier and fit the data.
 clf = neighbors.KNeighborsClassifier(n_neighbors, weights=WEIGHT)
 clf.fit(X, y)
 
@@ -85,26 +83,25 @@ clf.fit(X, y)
 x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
 y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
 xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-					 np.arange(y_min, y_max, h))
+                     np.arange(y_min, y_max, h))
 Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
 
 # Predictions
 print("=======================\nk=%s, weights=%s" %(n_neighbors, WEIGHT))
-print("Test Data Accuracy: " + str(predict("colourtest.csv", clf)))
+print("Test Data Accuracy: " + str(predict("distcolourtest.csv", clf)))
 
 # Put the result into a color plot
 Z = Z.reshape(xx.shape)
 plt.figure(figsize = (10,8))
 plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
-"""
 
 # Plot also the training points
 plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold,
-			edgecolor='k', s=20)
+            edgecolor='k', s=20)
 plt.xlim(xx.min(), xx.max())
 plt.ylim(yy.min(), yy.max())
 plt.title("k = %i, weights = '%s'"
-		  % (n_neighbors, WEIGHT),fontsize=20)
+          % (n_neighbors, WEIGHT),fontsize=20)
 #plt.suptitle("NAE Species Classification",fontsize=15)
 plt.xlabel('Hue',fontsize=17)
 plt.ylabel('Interpupillary distance',fontsize=17)
