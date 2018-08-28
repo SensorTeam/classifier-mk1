@@ -20,9 +20,9 @@ from sklearn.preprocessing import StandardScaler
 NUMDIM = 2 # number of dimensions/variables
 NUMCLASS = 5 # number of classes
 # How many nearest neighbours?
-n_neighbors = 3
+n_neighbors = 10
 # 'uniform' or 'distance' # distance assigns weights proportional to the inverse of the distance from query point
-WEIGHT = 'distance'
+WEIGHT = 'uniform'
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
