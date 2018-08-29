@@ -6,11 +6,6 @@ from rgb_to_hsv import *
 file = "results_raw.csv"
 bit = 14		# 8 for jpg, 14 for raw
 
-def pol2cart(r, phi):
-	x = r * np.cos(np.deg2rad(phi))
-	y = r * np.sin(np.deg2rad(phi))
-	return(x, y)
-
 # open database
 with open(file, 'r') as f:
 	reader = csv.reader(f)

@@ -1,3 +1,11 @@
+import numpy as np
+
+# converts polar coordinates to cartesian
+def pol2cart(r, phi):
+	x = r * np.cos(np.deg2rad(phi))
+	y = r * np.sin(np.deg2rad(phi))
+	return(x, y)
+
 #This function converts RGB values to HSV. It takes the R, G, and B values
 # as input, as well as the number corresponding to their bit (ie. 8-bit, 14-bit etc.)
 # and outputs a list [HUE, SATURATION, VALUE].

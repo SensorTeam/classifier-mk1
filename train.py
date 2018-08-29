@@ -44,7 +44,7 @@ X = data[:, 1:].astype(np.float)
 scaler = StandardScaler()
 scaler.fit(X)
 # pickle the transform
-pickle.dump(scaler, open('raw/scaler_transform.sav', 'wb'))
+pickle.dump(scaler, open('scaler_transform.sav', 'wb'))
 X = scaler.transform(X)
 learnset_data = X
 learnset_labels = y
@@ -67,18 +67,18 @@ learnset_labels = y
 # plt.show()
 
 
-# Project to 2 dimensions (r-g, 2b-r-g)
+# WORK IN 2D
+# Project to (r-g, 2b-r-g) if using r/t, g/t, b/t data
+# 
 x2d = []
 for entry in learnset_data:
-	#r,g,b = entry[0:3]
-	x2d.append(entry)
+	# r,g,b = entry[0:3]
 	# x2d.append([1/math.sqrt(2)*(r-g), 1/math.sqrt(6)*(2*b-r-g)])
-# for i in range(len(x2d)):
-# 	print(x2d[i][0])
+	x2d.append(entry)		# for data that is already 2D
 # Create 2D knn model
 model = neighbors.KNeighborsClassifier(n_neighbors, weights=WEIGHT)
 model.fit(x2d, y)
-pickle.dump(model, open('raw/knn_model.sav', 'wb'))	# pickle it
+pickle.dump(model, open('knn_model.sav', 'wb'))	# pickle it
 
 
 # PLOT IN 2D WITH REGIONS
@@ -103,32 +103,11 @@ plt.figure(figsize = (10,8))
 plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
 
 # Plot the training points
-# print(np.asarray(x2d)[:, 0])
-# print(np.asarray(x2d)[:, 1])
-plt.scatter(np.asarray(x2d)[:, 0], np.asarray(x2d)[:, 1], c=y, cmap=cmap_bold, edgecolor='k', s=20)
+plt.scatter(np.asarray(x2d)[:, 0], np.asarray(x2d)[:, 1], 
+	c=y, cmap=cmap_bold, edgecolor='k', s=20)
 
 # Labels and titles
-plt.title("k = %i, weights = '%s'" % (n_neighbors, WEIGHT),fontsize=20)
+plt.title("k = %i, weights = '%s'" % (n_neighbors, WEIGHT))
 plt.xlabel("hue")
 plt.ylabel("saturation")
-# plt.ylim([0,360])
-# plt.xlim([0,100])
 plt.show()
-
-
-
-"""
-# Predictions
-print("=======================\nk=%s, weights=%s" %(n_neighbors, WEIGHT))
-print("Test Data Accuracy: " + str(predict("distcolourtest.csv", clf)))
-
-# Plot also the training points
-plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold,
-			edgecolor='k', s=20)
-plt.xlim(xx.min(), xx.max())
-plt.ylim(yy.min(), yy.max())
-plt.title("k = %i, weights = '%s'"
-		  % (n_neighbors, WEIGHT),fontsize=20)
-
-plt.show()
-"""
