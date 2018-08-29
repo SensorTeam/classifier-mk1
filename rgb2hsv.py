@@ -3,8 +3,8 @@ import colorsys
 import numpy as np
 from rgb_to_hsv import *
 
-file = "results_jpg.csv"
-mode = "jpg"		# raw or jpg?
+file = "results_raw.csv"
+bit = 14		# 8 for jpg, 14 for raw
 
 def pol2cart(r, phi):
 	x = r * np.cos(np.deg2rad(phi))
@@ -16,20 +16,18 @@ with open(file, 'r') as f:
 	reader = csv.reader(f)
 	raw = list(reader)[:]
 
-data = np.asarray([row[1:5] for row in raw])
-y = data[:, 0].astype(np.int)
-X = data[:, 1:].astype(np.float)
+data = np.asarray([row[0:5] for row in raw])
+filenames = data[:, 0]
+y = data[:, 1].astype(np.int)
+X = data[:, 2:].astype(np.float)
 
-for item in X:
-	r,g,b = item[0], item[1], item[2]
-	if mode == "raw":
-		hsv = rgb_to_hsv(r,g,b,14)
-		pol = pol2cart(hsv[1]*100, hsv[0])
-		#print(hsv[1]*100,hsv[0])
-		print(pol[0], pol[1])
-	elif mode == "jpg":
-		hsv = rgb_to_hsv(r,g,b,8)
-		pol = pol2cart(hsv[1]*100, hsv[0])
-		print(pol[1])
+f = open(file[:-4] + "pol.csv", 'w')
+writer = csv.writer(f)
 
-
+for i in range(len(X)):
+	r,g,b = X[i]
+	hsv = rgb_to_hsv(r,g,b,bit)
+	pol = pol2cart(hsv[1]*100, hsv[0])
+	writer.writerow([filenames[i], y[i], pol[0], pol[1]])
+	
+f.close()
