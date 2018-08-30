@@ -1,7 +1,7 @@
 import numpy as np
 
 # converts polar coordinates to cartesian
-def pol2cart(r, phi):
+def pol2cart(phi, r):
 	x = r * np.cos(np.deg2rad(phi))
 	y = r * np.sin(np.deg2rad(phi))
 	return(x, y)
