@@ -1,5 +1,4 @@
 """
-`python3 main.py`
 # input array of data
 # append/store it the database
 # load model
@@ -47,10 +46,9 @@ def classify(data):
 	newX = scaler.transform(newX)
 
 	# make prediction
-	print('==========================\nFILE: ' + data[0])
-	print('LABEL: ' + str(c))
-	print('PREDICTION: ' + str( model.predict(newX)[0] ))
-	return
+	p = model.predict(newX)[0]
+	returnstr ="==========================\nFILE: %s\nLABEL: %i\nPREDICTION: %i"%(data[0],c,p)
+	return returnstr
 
 
 # transform data using desired method from flags
@@ -83,5 +81,5 @@ def normalise(r,g,b):
 	y = 1/math.sqrt(6)*(2*b-r-g)
 	return [x,y]
 
-classify(["testing/red/IMG_5155.JPG",0,193.40279286268427,90.6844065166796,93.77424359968968])
-classify(["testing/pink/IMG_5376.JPG",3,221.48419590135464,66.22160472386246,186.14171587356722])
+print(classify(["testing/red/IMG_5155.JPG",0,193.40279286268427,90.6844065166796,93.77424359968968]))
+print(classify(["testing/pink/IMG_5376.JPG",3,221.48419590135464,66.22160472386246,186.14171587356722]))
