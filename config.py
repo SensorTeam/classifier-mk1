@@ -11,6 +11,6 @@ NORMALISED = True			# True gives R/t, G/t, B/t and 2D projection onto (r-g, 2b-r
 COORD_SYSTEM = "polar"		# polar or cartesian
 
 # Training
-N_NEIGHBOURS = 3			# number of neighbours
+N_NEIGHBOURS = 8			# number of neighbours
 WEIGHT = "uniform" 			# or "distance"
 

@@ -50,11 +50,11 @@ def classify(data):
 	print('Prediction: ' + str( model.predict(transformed_data)[0] ))
 	return
 
-	
+
 # transform data using desired method from flags
 def transform(data):
 	# data is always given in original rgb values
-	r,g,b = X
+	r,g,b = data
 
 	# normalise for 2D RGB
 	if COLORSPACE == "RGB":
@@ -80,4 +80,4 @@ def normalise(r,g,b):
 	y = 1/math.sqrt(6)*(2*b-r-g)
 	return [x,y]
 
-
+classify(["testing/red/IMG_5155.JPG",0,198.46357521110633,96.4276513525118,99.74323744096179])
