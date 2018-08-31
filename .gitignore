@@ -1,3 +1,6 @@
 venv/
 output.txt
 .DS_Store
+
+*.pyc
+__pycache__/

@@ -4,7 +4,8 @@ input training data csv
 graph training data points
 output saved model and transform
 """
-from rgb_to_hsv import *
+
+from .rgb_to_hsv import *
 import sys
 sys.path.append('..')
 from config import *
@@ -12,6 +13,8 @@ import numpy as np
 import csv
 import pickle
 import math
+import matplotlib
+matplotlib.use('tkAgg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import ListedColormap
@@ -78,7 +81,7 @@ def train(file):
 	scaler = StandardScaler()
 	scaler.fit(final_X)
 	# Pickle the transform
-	pickle.dump(scaler, open('scaler_transform.sav', 'wb'))
+	pickle.dump(scaler, open(PATH_SCALER_TRANSFORM, 'wb'))
 	learnset_data = scaler.transform(final_X)
 	learnset_labels = y
 
@@ -86,7 +89,7 @@ def train(file):
 	########## Create knn model
 	model = neighbors.KNeighborsClassifier(N_NEIGHBOURS, weights=WEIGHT)
 	model.fit(learnset_data, learnset_labels)
-	pickle.dump(model, open('knn_model.sav', 'wb'))	# pickle it
+	pickle.dump(model, open(PATH_KNN_MODEL, 'wb'))	# pickle it
 
 	
 	########## Plot in 2D showing class regions
@@ -173,6 +176,3 @@ def normalise(X):
 		r,g,b = r/tot, g/tot, b/tot
 		x2d.append([1/math.sqrt(2)*(r-g), 1/math.sqrt(6)*(2*b-r-g)])
 	return x2d
-
-
-train("results_jpg.csv")
