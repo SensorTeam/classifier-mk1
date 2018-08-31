@@ -5,10 +5,11 @@ graph training data points
 output saved model and transform
 """
 from rgb_to_hsv import *
+import sys
+sys.path.append('..')
 from config import *
 import numpy as np
 import csv
-import argparse
 import pickle
 import math
 import matplotlib.pyplot as plt
@@ -174,4 +175,4 @@ def normalise(X):
 	return x2d
 
 
-train("results_raw.csv")
+train("results_jpg.csv")

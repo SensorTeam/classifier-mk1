@@ -1,6 +1,6 @@
-BIT = 14 					# 8 or 14 (jpg or raw)
+BIT = 8 					# 8 or 14 (jpg or raw)
 
-COLORSPACE = "HSV" 			# RGB or HSV
+COLORSPACE = "RGB" 			# RGB or HSV
 N_CLASSES = 5 				# number of classes
 
 # RGB COLORSPACE

@@ -7,9 +7,11 @@
 """
 
 import pickle
-import csv
 import numpy as np
+import math
 from rgb_to_hsv import *
+import sys
+sys.path.append('..')
 from config import *
 
 # Classifies based on pre-existing loaded training set
@@ -21,7 +23,7 @@ def classify(data):
 
 	# label?
 	try:
-		c = data[1].astype(np.int)
+		c = int(data[1])
 	except:
 		c = 'None'
 
@@ -36,7 +38,7 @@ def classify(data):
 		raise ValueError("Incorrect macros parsed. Check config.py")
 
 	# transform the data using desired method
-	transformed_data = transform(data)
+	transformed_data = transform(np.asarray(data))
 
 	# standardise using scaler
 	newX = np.asarray(transformed_data)
@@ -45,16 +47,17 @@ def classify(data):
 	newX = scaler.transform(newX)
 
 	# make prediction
-	print('File: ' + data[0])
-	print('Label: ' + str(c))
-	print('Prediction: ' + str( model.predict(transformed_data)[0] ))
+	print('==========================\nFILE: ' + data[0])
+	print('LABEL: ' + str(c))
+	print('PREDICTION: ' + str( model.predict(newX)[0] ))
 	return
 
 
 # transform data using desired method from flags
 def transform(data):
+	X = data[2:].astype(np.float)
 	# data is always given in original rgb values
-	r,g,b = data
+	r,g,b = X
 
 	# normalise for 2D RGB
 	if COLORSPACE == "RGB":
@@ -80,4 +83,5 @@ def normalise(r,g,b):
 	y = 1/math.sqrt(6)*(2*b-r-g)
 	return [x,y]
 
-classify(["testing/red/IMG_5155.JPG",0,198.46357521110633,96.4276513525118,99.74323744096179])
+classify(["testing/red/IMG_5155.JPG",0,193.40279286268427,90.6844065166796,93.77424359968968])
+classify(["testing/pink/IMG_5376.JPG",3,221.48419590135464,66.22160472386246,186.14171587356722])
