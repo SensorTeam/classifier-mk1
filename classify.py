@@ -19,7 +19,8 @@ def classify(data):
 	# load model and transform
 	model = pickle.load(open(PATH_KNN_MODEL, 'rb'))
 	scaler = pickle.load(open(PATH_SCALER_TRANSFORM, 'rb'))
-
+	print("Loaded data = %s"% data)
+	
 	# label?
 	try:
 		c = int(data[1])
@@ -47,8 +48,8 @@ def classify(data):
 
 	# make prediction
 	p = model.predict(newX)[0]
-	returnstr = "Transformed data" +str(transformed_data)
-	returnstr += "\n==========================\nFILE: %s\nLABEL: %i\nPREDICTION: %i\n"%(data[0],c,p)
+	returnstr = "\n==========================\nTransformed data" +str(transformed_data)
+	returnstr += "\nFILE: %s\nLABEL: %i\nPREDICTION: %i\n"%(data[0],c,p)
 	return returnstr
 
 
