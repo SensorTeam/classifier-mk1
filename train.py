@@ -5,7 +5,7 @@ graph training data points
 output saved model and transform
 """
 
-from .rgb_to_hsv import *
+from rgb_to_hsv import *
 import sys
 sys.path.append('..')
 from config import *
@@ -119,18 +119,19 @@ def train(file):
 			c=y, cmap=cmap_bold, edgecolor='k', s=20)
 
 		# Labels and titles
-		if BIT == 14:
-			imgtype = "RAW"
-		else:
-			imgtype = "JPG"
-		plt.title("%s image filetype, %i bit, %s, k = %i, %s weighted" % 
-			(imgtype, BIT, COLORSPACE, N_NEIGHBOURS, WEIGHT))
 		if COLORSPACE == "HSV":
 			plt.xlabel("hue")
 			plt.ylabel("saturation")
 		else:
 			plt.xlabel("r-g")
 			plt.ylabel("2b-r-g")
+		if BIT == 14:
+			imgtype = "RAW"
+		else:
+			imgtype = "JPG"
+		ax = plt.title("%s image filetype, %i bit, %s, k = %i, %s weighted" % 
+			(imgtype, BIT, COLORSPACE, N_NEIGHBOURS, WEIGHT))
+		pickle.dump(ax, open(PATH_PLOT, "wb"))
 		plt.show()
 
 	return
@@ -176,3 +177,5 @@ def normalise(X):
 		r,g,b = r/tot, g/tot, b/tot
 		x2d.append([1/math.sqrt(2)*(r-g), 1/math.sqrt(6)*(2*b-r-g)])
 	return x2d
+
+train("results_jpg.csv")
