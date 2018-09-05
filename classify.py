@@ -9,7 +9,7 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from rgb_to_hsv import *
+from .rgb_to_hsv import *
 import sys
 sys.path.append('..')
 from config import *
@@ -101,7 +101,8 @@ def normalise(r,g,b):
 	y = 1/math.sqrt(6)*(2*b-r-g)
 	return [x,y]
 
-
+"""
 print(classify(["testing/red/IMG_5155.JPG",0,193.40279286268427,90.6844065166796,93.77424359968968]))
 print(classify(["testing/pink/IMG_5376.JPG",3,221.48419590135464,66.22160472386246,186.14171587356722]))
 print(classify(["test",None,40,30,30]))
+"""

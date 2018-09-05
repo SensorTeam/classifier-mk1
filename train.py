@@ -5,7 +5,7 @@ graph training data points
 output saved model and transform
 """
 
-from rgb_to_hsv import *
+from .rgb_to_hsv import *
 import sys
 sys.path.append('..')
 from config import *
@@ -178,4 +178,6 @@ def normalise(X):
 		x2d.append([1/math.sqrt(2)*(r-g), 1/math.sqrt(6)*(2*b-r-g)])
 	return x2d
 
+"""
 train("results_jpg.csv")
+"""
