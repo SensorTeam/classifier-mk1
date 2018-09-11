@@ -9,7 +9,7 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from .rgb_to_hsv import *
+from rgb_to_hsv import *
 import sys
 sys.path.append('..')
 from config import *
@@ -20,8 +20,8 @@ def classify(data):
 	# load model and transform
 	model = pickle.load(open(PATH_KNN_MODEL, 'rb'))
 	scaler = pickle.load(open(PATH_SCALER_TRANSFORM, 'rb'))
-	print("\n=================================================")
-	print("LOADED DATA = %s"% data)
+	# print("\n=================================================")
+	# print("LOADED DATA = %s"% data)
 	
 	# label?
 	try:
@@ -68,12 +68,13 @@ def classify(data):
 		returnstr += "Class unclear\n"
 	else:
 		returnstr += "PREDICTION: %i\n"%(p)
-	return returnstr
+	return returnstr, p
 
 
 # transform data using desired method from flags
 def transform(data):
 	X = data[2:].astype(np.float)
+
 	# data is always given in original rgb values
 	r,g,b = X
 
@@ -101,8 +102,3 @@ def normalise(r,g,b):
 	y = 1/math.sqrt(6)*(2*b-r-g)
 	return [x,y]
 
-"""
-print(classify(["testing/red/IMG_5155.JPG",0,193.40279286268427,90.6844065166796,93.77424359968968]))
-print(classify(["testing/pink/IMG_5376.JPG",3,221.48419590135464,66.22160472386246,186.14171587356722]))
-print(classify(["test",None,40,30,30]))
-"""
