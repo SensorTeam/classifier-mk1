@@ -13,8 +13,8 @@ import numpy as np
 import csv
 import pickle
 import math
-import matplotlib
-matplotlib.use('tkAgg')
+# import matplotlib
+# matplotlib.use('tkAgg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import ListedColormap
@@ -23,13 +23,14 @@ from sklearn.preprocessing import StandardScaler
 
 
 ########### main training function
-def train(file):
+def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 
 	########### Check that macros are valid
 	bit = [8, 14]
 	cs = ["RGB", "HSV"]
 	coords = ["polar", "cartesian"]
 	weights = ["uniform", "distance"]
+
 	if BIT in bit and COLORSPACE in cs and COORD_SYSTEM in coords and WEIGHT in weights:
 		pass
 	else:
@@ -132,7 +133,8 @@ def train(file):
 		ax = plt.title("%s image filetype, %i bit, %s, k = %i, %s weighted" % 
 			(imgtype, BIT, COLORSPACE, N_NEIGHBOURS, WEIGHT))
 		pickle.dump(ax, open(PATH_PLOT, "wb"))
-		plt.show()
+		# plt.show()
+		plt.close()
 
 	return
 
@@ -163,7 +165,8 @@ def plt3D(X, y):
 	ax = fig.add_subplot(111, projection='3d')
 	for iclass in range(N_CLASSES):
 		ax.scatter(x3d[iclass][0], x3d[iclass][1], x3d[iclass][2], c=colours[iclass])
-	plt.show()
+	# plt.show()
+	plt.close()
 	return
 
 ########### normalise rgb to r/t, g/b, b/t
@@ -178,5 +181,5 @@ def normalise(X):
 		x2d.append([1/math.sqrt(2)*(r-g), 1/math.sqrt(6)*(2*b-r-g)])
 	return x2d
 
-
+# train('cow_sheep_data_raw.csv')
 

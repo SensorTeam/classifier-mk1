@@ -34,6 +34,7 @@ def classify(data):
 	cs = ["RGB", "HSV"]
 	coords = ["polar", "cartesian"]
 	weights = ["uniform", "distance"]
+
 	if BIT in bit and COLORSPACE in cs and COORD_SYSTEM in coords and WEIGHT in weights:
 		pass
 	else:
@@ -52,7 +53,8 @@ def classify(data):
 	if NORMALISED or COLORSPACE == "HSV":
 		ax = pickle.load(open(PATH_PLOT, "rb"))
 		plt.scatter(newX[0][0], newX[0][1], s=250,marker='*', facecolors='w', edgecolors='k',linewidths=1)
-		plt.show()
+		# plt.show()
+		plt.close()
 
 	# make prediction
 	p = model.predict(newX)[0]
