@@ -6,9 +6,10 @@
 """
 
 import pickle
+import matplotlib.pyplot as plt
 import numpy as np
 import math
-from .rgb_to_hsv import *
+from rgb_to_hsv import *
 import sys
 sys.path.append('..')
 from config import *
@@ -19,7 +20,8 @@ def classify(data):
 	# load model and transform
 	model = pickle.load(open(PATH_KNN_MODEL, 'rb'))
 	scaler = pickle.load(open(PATH_SCALER_TRANSFORM, 'rb'))
-	print("Loaded data = %s"% data)
+	# print("\n=================================================")
+	# print("LOADED DATA = %s"% data)
 	
 	# label?
 	try:
@@ -32,6 +34,7 @@ def classify(data):
 	cs = ["RGB", "HSV"]
 	coords = ["polar", "cartesian"]
 	weights = ["uniform", "distance"]
+
 	if BIT in bit and COLORSPACE in cs and COORD_SYSTEM in coords and WEIGHT in weights:
 		pass
 	else:
@@ -46,16 +49,34 @@ def classify(data):
 	newX = newX.reshape(1,-1)
 	newX = scaler.transform(newX)
 
+	# If 2D, plot the new point in classification space
+	if NORMALISED or COLORSPACE == "HSV":
+		ax = pickle.load(open(PATH_PLOT, "rb"))
+		plt.scatter(newX[0][0], newX[0][1], s=250,marker='*', facecolors='w', edgecolors='k',linewidths=1)
+		# plt.show()
+		plt.close()
+
 	# make prediction
 	p = model.predict(newX)[0]
-	returnstr = "\n==========================\nTransformed data" +str(transformed_data)
-	returnstr += "\nFILE: %s\nLABEL: %i\nPREDICTION: %i\n"%(data[0],c,p)
-	return returnstr
+	neighbour_dist = model.kneighbors(newX)[0]
+	
+	# RETURN RESULTS
+	returnstr = "==========================\nTransformed data: " +str(transformed_data)
+	returnstr += "\nFILE: %s\nLABEL: %s\n"%(data[0],str(c))
+	
+	# if closest neighbour is too far away, possibly new class
+	if neighbour_dist[0][0] > 0.5:
+		returnstr += "Distance from closest neighbour: %f\n" % neighbour_dist[0][0]
+		returnstr += "Class unclear\n"
+	else:
+		returnstr += "PREDICTION: %i\n"%(p)
+	return returnstr, p
 
 
 # transform data using desired method from flags
 def transform(data):
 	X = data[2:].astype(np.float)
+
 	# data is always given in original rgb values
 	r,g,b = X
 
@@ -83,5 +104,3 @@ def normalise(r,g,b):
 	y = 1/math.sqrt(6)*(2*b-r-g)
 	return [x,y]
 
-# print(classify(["testing/red/IMG_5155.JPG",0,193.40279286268427,90.6844065166796,93.77424359968968]))
-# print(classify(["testing/pink/IMG_5376.JPG",3,221.48419590135464,66.22160472386246,186.14171587356722]))
