@@ -2,11 +2,11 @@
 # open file
 import random
 
-file = open("data/real/dead_raw.csv", "r")
+file = open("data/modelremoteadj/38model_remote_jpg.csv", "r")
 data = file.readlines()
 
-test = open("data/real/dead_raw_test_split2.csv", "a")
-train = open("data/real/dead_raw_train_split2.csv", "a")
+test = open("data/modelremoteadj/38model_remote_jpg_test.csv", "a")
+train = open("data/modelremoteadj/38model_remote_jpg_train.csv", "a")
 
 for i in range(1, len(data)):
 	rand = random.randint(0,10)

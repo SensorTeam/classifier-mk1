@@ -18,8 +18,10 @@ import math
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import ListedColormap
+from matplotlib.lines import Line2D
 from sklearn import datasets, neighbors
 from sklearn.preprocessing import StandardScaler
+from config import *
 
 
 ########### main training function
@@ -97,8 +99,10 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 	if NORMALISED or COLORSPACE == "HSV":
 		h = 0.01  # step size in the mesh
 		# Create color maps
-		cmap_light = ListedColormap(['#FFAAAA', '#AAAAFF', '#AAFFAA', '#FFF3AA', '#F3AAFF'])
-		cmap_bold = ListedColormap(['#FF0000', '#0000FF', '#00FF00', '#FFDB00', '#DC00FF'])
+		light_colors = ['#FFAAAA', '#AAFFAA', '#FFF3AA', '#F3AAFF', '#AAAAFF']
+		bold_colors = ['#FF0000', '#00FF00', '#FFDB00', '#DC00FF', '#0000FF']
+		cmap_light = ListedColormap(light_colors)
+		cmap_bold = ListedColormap(bold_colors)
 
 		# Plot the decision boundaries
 		# Classify each point in the mesh [x_min, x_max]x[y_min, y_max].
@@ -121,8 +125,8 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 
 		# Labels and titles
 		if COLORSPACE == "HSV":
-			plt.xlabel("hue")
-			plt.ylabel("saturation")
+			plt.xlabel("Hue")
+			plt.ylabel("Saturation")
 		else:
 			plt.xlabel("r-g")
 			plt.ylabel("2b-r-g")
@@ -130,9 +134,23 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 			imgtype = "RAW"
 		else:
 			imgtype = "JPG"
-		ax = plt.title("%s image filetype, %i bit, %s, k = %i, %s weighted" % 
-			(imgtype, BIT, COLORSPACE, N_NEIGHBOURS, WEIGHT))
+		title = "%s image filetype, %i bit, %s polar, k = %i, %s weighted" % (imgtype, BIT, COLORSPACE, N_NEIGHBOURS, WEIGHT)
+		ax = plt.title(title)
+		
+
+		legend_elements = [Line2D([0], [0], marker='o', color='w', label=CLASSES[0],
+						markerfacecolor=bold_colors[0], markeredgecolor='k', markersize=5),
+							Line2D([0], [0], marker='o', color='w', label=CLASSES[1],
+						markerfacecolor=bold_colors[1], markeredgecolor='k', markersize=5),
+							Line2D([0], [0], marker='o', color='w', label=CLASSES[2],
+						markerfacecolor=bold_colors[2], markeredgecolor='k', markersize=5),
+							Line2D([0], [0], marker='o', color='w', label=CLASSES[3],
+						markerfacecolor=bold_colors[3], markeredgecolor='k', markersize=5),
+							Line2D([0], [0], marker='o', color='w', label=CLASSES[4],
+						markerfacecolor=bold_colors[4], markeredgecolor='k', markersize=5)]
+		plt.legend(handles=legend_elements)
 		pickle.dump(ax, open(PATH_PLOT, "wb"))
+		plt.savefig(title+'.png', format='png', dpi=400)
 		# plt.show()
 		plt.close()
 
@@ -152,7 +170,7 @@ def plt3D(X, y):
 	if len(X[0])!= 3:
 		raise ValueError('Data is not 3D RGB. Check config.py')
 	# Plot points
-	colours = ("r", "b", "g", "m", "y")
+	colours = ("b", "g", "m", "r", "y")
 	x3d = []
 	for iclass in range(N_CLASSES):
 		x3d.append([[], [], []])
@@ -163,8 +181,19 @@ def plt3D(X, y):
 				x3d[iclass][2].append(data[i][2])
 	fig = plt.figure()
 	ax = fig.add_subplot(111, projection='3d')
-	for iclass in range(N_CLASSES):
-		ax.scatter(x3d[iclass][0], x3d[iclass][1], x3d[iclass][2], c=colours[iclass])
+
+	# plot all the points
+	scatter_r = ax.scatter(x3d[0][0], x3d[0][1], x3d[0][2], c=colours[0])
+	scatter_b = ax.scatter(x3d[1][0], x3d[1][1], x3d[1][2], c=colours[1])
+	scatter_g = ax.scatter(x3d[2][0], x3d[2][1], x3d[2][2], c=colours[2])
+	scatter_m = ax.scatter(x3d[3][0], x3d[3][1], x3d[3][2], c=colours[3])
+	scatter_y = ax.scatter(x3d[4][0], x3d[4][1], x3d[4][2], c=colours[4])
+
+	plt.legend([scatter_r, scatter_b, scatter_g, scatter_m, scatter_y], CLASSES, numpoints = 1)
+	ax.set_xlabel('R (red)')
+	ax.set_ylabel('G (green)')
+	ax.set_zlabel('B (blue)')
+	plt.title("RGB 3D, raw image filetype")
 	# plt.show()
 	plt.close()
 	return
