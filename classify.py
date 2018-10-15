@@ -16,7 +16,7 @@ from config import *
 
 # Classifies based on pre-existing loaded training set
 # Filename, class, R, G, B
-def classify(data, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
+def classify(data):
 	# load model and transform
 	model = pickle.load(open(PATH_KNN_MODEL, 'rb'))
 	scaler = pickle.load(open(PATH_SCALER_TRANSFORM, 'rb'))
@@ -41,7 +41,7 @@ def classify(data, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 		raise ValueError("Incorrect macros parsed. Check config.py")
 
 	# transform the data using desired method
-	transformed_data = transform(np.asarray(data), COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT)
+	transformed_data = transform(np.asarray(data))
 
 	# standardise using scaler
 	newX = np.asarray(transformed_data)
@@ -74,7 +74,7 @@ def classify(data, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 
 
 # transform data using desired method from flags
-def transform(data, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
+def transform(data):
 	X = data[2:].astype(np.float)
 
 	# data is always given in original rgb values

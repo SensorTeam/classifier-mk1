@@ -99,8 +99,8 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 	if NORMALISED or COLORSPACE == "HSV":
 		h = 0.01  # step size in the mesh
 		# Create color maps
-		light_colors = ['#FFAAAA', '#AAFFAA']#, '#FFF3AA']
-		bold_colors = ['#FF0000', '#00FF00']#, '#FFDB00']
+		light_colors = ['#FFAAAA', '#AAFFAA', '#FFF3AA']
+		bold_colors = ['#FF0000', '#00FF00', '#FFDB00']
 		cmap_light = ListedColormap(light_colors)
 		cmap_bold = ListedColormap(bold_colors)
 
