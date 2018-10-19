@@ -48,13 +48,13 @@ combos = [
 			# ["HSV", True, "cartesian", 12, "uniform"],
 			# ["HSV", True, "cartesian", 12, "distance"]
 
-			# ["HSV", True, "polar", 3, "uniform"],
-			# ["HSV", True, "polar", 3, "distance"],
-			# ["HSV", True, "polar", 6, "uniform"],
-			# ["HSV", True, "polar", 6, "distance"],
-			# ["HSV", True, "polar", 9, "uniform"],
-			# ["HSV", True, "polar", 9, "distance"],
-			# ["HSV", True, "polar", 12, "uniform"],
+			["HSV", True, "polar", 3, "uniform"],
+			["HSV", True, "polar", 3, "distance"],
+			["HSV", True, "polar", 6, "uniform"],
+			["HSV", True, "polar", 6, "distance"],
+			["HSV", True, "polar", 9, "uniform"],
+			["HSV", True, "polar", 9, "distance"],
+			["HSV", True, "polar", 12, "uniform"],
 			["HSV", True, "polar", 12, "distance"]
 		]
 
@@ -62,21 +62,21 @@ for combo in combos:
 	print(combo)
 	[COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT] = combo
 
-	train("data/realclose/horsesheep/real_close_raw_train.csv", COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT)
+	train("data/realclose/real_close_raw_train.csv", COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT)
 
-	with open("data/realclose/horsesheep/real_close_raw_test.csv", 'r') as f:
-		reader = csv.reader(f)
-		data = list(reader)[:]
+	# with open("data/realclose/cowsheep/real_close_raw_test.csv", 'r') as f:
+	# 	reader = csv.reader(f)
+	# 	data = list(reader)[:]
 
-	correct, count = 0, 0
-	for entry in data:
-		_, p = classify(entry, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT)
-		if p == int(entry[1]):
-			correct+=1
-		count+=1
+	# correct, count = 0, 0
+	# for entry in data:
+	# 	_, p = classify(entry, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT)
+	# 	if p == int(entry[1]):
+	# 		correct+=1
+	# 	count+=1
 
-	accuracy = float(correct/count)
-	print("{:0.4f}".format(accuracy))
+	# accuracy = float(correct/count)
+	# print("{:0.4f}".format(accuracy))
 
 
 

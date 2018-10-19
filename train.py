@@ -99,8 +99,8 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 	if NORMALISED or COLORSPACE == "HSV":
 		h = 0.01  # step size in the mesh
 		# Create color maps
-		light_colors = ['#FFAAAA', '#AAFFAA']#, '#FFF3AA']
-		bold_colors = ['#FF0000', '#00FF00']#, '#FFDB00']
+		light_colors = ['#FFAAAA', '#AAFFAA', '#FFF3AA']
+		bold_colors =  ['#FF0000', '#00FF00', '#FFDB00']
 		cmap_light = ListedColormap(light_colors)
 		cmap_bold = ListedColormap(bold_colors)
 
@@ -125,8 +125,12 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 
 		# Labels and titles
 		if COLORSPACE == "HSV":
-			plt.xlabel("Hue")
-			plt.ylabel("Saturation")
+			if COORD_SYSTEM == "polar":
+				plt.xlabel("x")
+				plt.ylabel("y")
+			else:
+				plt.xlabel("Hue")
+				plt.ylabel("Saturation")
 		else:
 			plt.xlabel("r-g")
 			plt.ylabel("2b-r-g")
@@ -134,20 +138,20 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 			imgtype = "RAW"
 		else:
 			imgtype = "JPG"
-		title = "%s image filetype, %i bit, %s cartesian, k = %i, %s weighted" % (imgtype, BIT, COLORSPACE, N_NEIGHBOURS, WEIGHT)
+		title = "%s image filetype, %i bit, %s polar, k = %i, %s weighted" % (imgtype, BIT, COLORSPACE, N_NEIGHBOURS, WEIGHT)
 		ax = plt.title(title)
 		
 
 		legend_elements = [Line2D([0], [0], marker='o', color='w', label=CLASSES[0],
 						markerfacecolor=bold_colors[0], markeredgecolor='k', markersize=5),
 							Line2D([0], [0], marker='o', color='w', label=CLASSES[1],
-						markerfacecolor=bold_colors[1], markeredgecolor='k', markersize=5)]
-						# 	Line2D([0], [0], marker='o', color='w', label=CLASSES[2],
-						# markerfacecolor=bold_colors[2], markeredgecolor='k', markersize=5)]
+						markerfacecolor=bold_colors[1], markeredgecolor='k', markersize=5),
+							Line2D([0], [0], marker='o', color='w', label=CLASSES[2],
+						markerfacecolor=bold_colors[2], markeredgecolor='k', markersize=5)]
 		plt.legend(handles=legend_elements)
 		pickle.dump(ax, open(PATH_PLOT, "wb"))
-		# plt.savefig(title+'.png', format='png', dpi=400)
-		plt.show()
+		plt.savefig(title+'.png', format='png', dpi=300)
+		# plt.show()
 		plt.close()
 
 	return
@@ -179,13 +183,13 @@ def plt3D(X, y):
 	ax = fig.add_subplot(111, projection='3d')
 
 	# plot all the points
-	scatter_r = ax.scatter(x3d[0][0], x3d[0][1], x3d[0][2], c=colours[0])
-	scatter_b = ax.scatter(x3d[1][0], x3d[1][1], x3d[1][2], c=colours[1])
-	# scatter_g = ax.scatter(x3d[2][0], x3d[2][1], x3d[2][2], c=colours[2])
+	scatter_r = ax.scatter(x3d[0][0], x3d[0][1], x3d[0][2], c=colours[0]) #, 
+	scatter_b = ax.scatter(x3d[1][0], x3d[1][1], x3d[1][2], c=colours[1]) #
+	scatter_g = ax.scatter(x3d[2][0], x3d[2][1], x3d[2][2], c=colours[2])
 	# scatter_m = ax.scatter(x3d[3][0], x3d[3][1], x3d[3][2], c=colours[3])
 	# scatter_y = ax.scatter(x3d[4][0], x3d[4][1], x3d[4][2], c=colours[4])
 
-	plt.legend([scatter_r, scatter_b], CLASSES, numpoints = 1)
+	plt.legend([scatter_r, scatter_b, scatter_g], CLASSES, numpoints = 1)
 	ax.set_xlabel('R (red)')
 	ax.set_ylabel('G (green)')
 	ax.set_zlabel('B (blue)')
