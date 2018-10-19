@@ -21,14 +21,14 @@ import csv
 ##################################################################
 
 combos = [	
-			["RGB", False, "polar", 3, "uniform"],
-			["RGB", False, "polar", 3, "distance"],
-			["RGB", False, "polar", 6, "uniform"],
-			["RGB", False, "polar", 6, "distance"],
-			["RGB", False, "polar", 9, "uniform"],
-			["RGB", False, "polar", 9, "distance"],
-			["RGB", False, "polar", 12, "uniform"],
-			["RGB", False, "polar", 12, "distance"]
+			# ["RGB", False, "polar", 3, "uniform"],
+			# ["RGB", False, "polar", 3, "distance"],
+			# ["RGB", False, "polar", 6, "uniform"],
+			# ["RGB", False, "polar", 6, "distance"],
+			# ["RGB", False, "polar", 9, "uniform"],
+			# ["RGB", False, "polar", 9, "distance"],
+			# ["RGB", False, "polar", 12, "uniform"],
+			# ["RGB", False, "polar", 12, "distance"]
 
 			# ["RGB", True, "polar", 3, "uniform"],
 			# ["RGB", True, "polar", 3, "distance"],
@@ -62,9 +62,9 @@ for combo in combos:
 	print(combo)
 	[COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT] = combo
 
-	train("data/modelremoteadj/38model_remote_jpg_train.csv", COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT)
+	train("data/modelremoteadj/38model_remote_raw_train.csv", COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT)
 
-	with open("data/modelremoteadj/38model_remote_jpg_test.csv", 'r') as f:
+	with open("data/modelremoteadj/38model_remote_raw_test.csv", 'r') as f:
 		reader = csv.reader(f)
 		data = list(reader)[:]
 

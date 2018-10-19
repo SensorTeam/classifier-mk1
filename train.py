@@ -125,8 +125,12 @@ def train(file, COLORSPACE, NORMALISED, COORD_SYSTEM, N_NEIGHBOURS, WEIGHT):
 
 		# Labels and titles
 		if COLORSPACE == "HSV":
-			plt.xlabel("Hue")
-			plt.ylabel("Saturation")
+			if COORD_SYSTEM == "polar":
+				plt.xlabel("x")
+				plt.ylabel("y")
+			else:
+				plt.xlabel("Hue")
+				plt.ylabel("Saturation")
 		else:
 			plt.xlabel("r-g")
 			plt.ylabel("2b-r-g")
